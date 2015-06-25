@@ -1,1 +1,23 @@
-test
+<div class="container">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>广告位编号</th>
+				<th>媒体名称</th>
+				<th>广告位上传时间</th>
+				<th>最近修改时间</th>
+				<th>返回代码</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{range $k,$v := .AdsData}}
+			<td>{{$v.Pushdata.GrtzoneId}}</td>
+			<td>{{$v.Pushdata.Pname}}</td>
+			<td>{{$v.Pushdata.SubData}}</td>
+			<td>{{$v.Pushdata.SubEditTime}}</td>
+			<td>{{$v.Returndata.Code}}</td>
+			<td><a href="/user/upd/{{$v.Id}}">修改</a></td>
+			{{end}}
+		</tbody>
+	</table>
+</div>

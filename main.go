@@ -6,7 +6,7 @@ import (
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
 
-	_ "go-api-haiyun/conf"
+	"go-api-haiyun/conf"
 	_ "go-api-haiyun/models"
 	"go-api-haiyun/routers"
 )
@@ -14,21 +14,24 @@ import (
 func main() {
 	m := martini.Classic()
 
-	//Make sure to include the Gzip middleware above other middleware that alter the response body (like the render middleware).
+	//gzip必须放在所有中间件前面
 	m.Use(gzip.All())
+	m.Use(martini.Static("static"))
 
-	// render html templates from templates directory
+	//前端基本配置
 	m.Use(render.Renderer(render.Options{
-		Directory:  "views",
-		Layout:     "layout",
-		Extensions: []string{".tmpl", ".html"},
-		Charset:    "UTF-8",
+		Directory:  "views",                    //自定义前端模板文件
+		Layout:     "layout",                   //设置母模板
+		Extensions: []string{".tmpl", ".html"}, //模板格式
+		Charset:    "UTF-8",                    //编码方式
 	}))
 
-	store := sessions.NewCookieStore([]byte("secret123"))
-	m.Use(sessions.Sessions("mysession", store))
+	store := sessions.NewCookieStore([]byte("instreet"))
+	m.Use(sessions.Sessions("instreet", store))
 
 	routers.RouterInit(m)
 
-	m.Run()
+	//读取端口，配置端口
+	port, _ := conf.Cfg.GetValue("", "httpport")
+	m.RunOnAddr(":" + port)
 }

@@ -7,6 +7,7 @@ import (
 
 var Cfg *goconfig.ConfigFile
 
+//加载配置文件
 func init() {
 	cfg, err := goconfig.LoadConfigFile("conf/conf.ini")
 	if err != nil {

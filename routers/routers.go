@@ -6,7 +6,5 @@ import (
 )
 
 func RouterInit(m *martini.ClassicMartini) {
-	m.Group("/home", func(r martini.Router) {
-		r.Get("/index", controllers.Home)
-	})
+	m.Get("/", controllers.Home)
 }
